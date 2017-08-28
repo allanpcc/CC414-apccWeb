@@ -1,12 +1,5 @@
-# allancastro
+# Allan Castro - Cloud Computing
 
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.16.0.
-
-## Build & development
-
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+Pagina creada para la materia de Cloud Computing.
+Creda con 'yo angular generator'
+Construir usando 'grunt build' y correr con 'grunt serve'
