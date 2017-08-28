@@ -1,0 +1,137 @@
+<style>
+  p, h2{text-align:justify}
+</style>
+<h1>Homework #1</h1>
+
+<h2>1. Leer el siguiente artículo y explicar que es “Microservices Architecture”.
+  <a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a></h2>
+<p>La arquitectura de microservicios se refiere a una estructura con la cual se provee un programa como un conjunto de servicios independientes por medio de la cual se pueden crear aplicaciones más complejas. La forma tradicional de proveer un programa es a
+través de una estructura monolítica, en la cual todos los servicios se encuentran dentro de un mismo marco de trabajo, mientras que en microservicios todo es independiente.
+<br>
+  Al estar todo en conjunto, al momento de hacer cambios en un una parte especifica del programa, es necesario que se vuelva a generar una nueva versión de todo el
+programa, lo cual implica tiempo, y a medida que crece más se vuelve más complicado.
+  <br>
+  En cambio, los microservicios al ser independientes, es posible que cada uno se trabaja de manera separada y se puedan modificar sin afectar a lo demás, teniendo también la
+capacidad de hacer dichos servicios en distintos lenguajes y crear el programa por módulos.
+  <br>
+  Otra diferencia a resaltar, es que en la estructura monolítica es necesario estar procesando más datos, lo cual implica una mayor cantidad de recursos y en caso de que no todo sea utilizado se tiene un desperdicio, y en la de microservicios se puede correr únicamente lo que se necesita.</p>
+
+<h2>2. Crear un script de bash que prepare el ambiente necesario para la clase
+Las herramientas a descargar son: Webstorm,AWS CLI, Yeoman, Grunt, Gulp, Node.js,
+  NPM</h2>
+<pre>#!/bin/bash
+echo -e "\nHerramientas para clase CC414 - Cloud Computing"
+echo -e "\n--------------------------------------\n"
+echo "Instalando Webstorm"
+wget https://download.jetbrains.com/webstorm/WebStorm-2017.2.2.tar.gz
+tar xf WebStorm-*.tar.gz -C /opt/
+./opt/WebStorm-*/bin/webstorm.sh
+rm WebStorm-2017.2.2.tar.gz
+echo -e "\n Instalando AWS CLI"
+pip install awscli
+
+echo -e "\n Instalando Node.js"
+apt-get install nodejs
+echo -e "\n Instalando NPM"
+apt-get install npm
+echo -e "\n Instalando Yeoman"
+npm install -g yo
+echo -e "\n Instalando Grunt"
+npm install -g grunt
+echo -e "\n Instalando Gulp"
+npm install -g gulp
+  echo -e "\n Ya termino \n"</pre>
+
+<h2>3. Crear una tarea de grunt o bash que ligue tu website a tu bucket</h2>
+<pre>#!/bin/bash
+#Entradas al correr comando, nombre y direccion
+BUCKET=$1
+ADDRESS=$2
+cd $ADDRESS
+if !(($(aws s3api head-bucket --bucket $BUCKET | grep '404') ))
+then
+echo "Deleting S3 Bucket"
+aws s3 rm s3://$BUCKET --recursive #vaciar bucket
+aws s3 rb s3://$BUCKET --force #borrar bucket
+fi
+echo "Creating S3 Bucket"
+aws s3api create-bucket --bucket $BUCKET
+yo angular $BUCKET
+grunt build --force
+cd dist
+echo "Synchronizing S3 Bucket"
+aws s3 sync . s3://$BUCKET --acl public-read
+echo "Making public website"
+aws s3 website s3://$BUCKET --index-document index.html --error-document 404.html
+echo "Opening website"
+  firefox http://s3.amazonaws.com/$BUCKET/index.html</pre>
+<p>Primero revisa si el bucket ya existe, de ser así lo borra, si no existe, salta ese paso y va
+  directo a crearlo.</p>
+
+<h2>4. Explicar cómo funcionan las rutas en angular y dar un ejemplo </h2>
+<p>Las rutas son utilizadas para crear aplicaciones que sean SPA (Single Page Application). Estas aplicaciones constan de una sola página, por la cual el usuario puede navegar a través de distintas vistas, dando la impresión de que son varias páginas. La ventaja de estas aplicaciones es que al estar todo en la misma página, no se tienen que volver a
+cargar otras páginas por las cuales se navega, haciendo así que la navegación sea más rápida. En angular, para crear este tipo de aplicaciones, se utiliza el módulo ngRoute. Una vez utilizando dicho módulo, es necesario usar la función $routeProvides, que se encarga de configurar las rutas de la aplicación.
+<br>
+  En el siguiente ejemplo se crea un módulo con el cual se podrán manejar las vistas dentro de la aplicación. Con el método when se manda a llamar a la vista seleccionada, en caso de seleccionar una que no está dentro de estas especificaciones, el método otherwise redireccionará la aplicación a la vista especificada.</p>
+<pre>var routesApp = angular.module('routesApp', ['ngRoute']);
+routesApp.config(function($routeProvider) {
+$routeProvider
+.when('/', {
+templateUrl :views/home.html',
+controller : 'mainController'
+})
+.when('/about, {
+templateUrl : 'views/acerca.html',
+controller : 'aboutController'
+})
+.when('/contact, {
+templateUrl : 'views/contacto.html',
+controller : 'contactController'
+})
+.when('/homework, {
+templateUrl : 'views/homework.html',
+controller : 'hwController'
+})
+.otherwise({
+redirectTo: '/'
+});
+});
+</pre>
+
+<h2>5. Explicar como como se puede tener más de una llave de acceso en tu computadora y como usarlas. Dar código o ejemplo.</h2>
+
+<p>Para hacer uso de más de una llave de acceso, es necesario crear un nuevo perfil. Para configurar nuevos perfiles se utiliza aws configure junto con la opción de –profile o agregándolos directamente al archivo de las credenciales. Se configuran en el archivo de credenciales de la siguiente manera:</p>
+<pre>[default]
+aws_access_key_id=[Aqui la llave]
+aws_secret_access_key=[Aqui la llave secreta]
+[usuario2]
+aws_access_key_id=[Aqui la llave]
+aws_secret_access_key=[Aqui la llave secreta]
+</pre>
+<p>
+Para utilizar un determinado usuario, es necesario agregar –profile usuario2, o el nombre
+del usuario deseado, después de cada comando. Si se desea evitar escribir siempre el
+usuario a usar, se puede usar el comando $ export AWS_PROFILE=usuario2, para hacer
+que todos los comando se ejecuten con ese perfil.
+</p>
+
+<h2>6. Explicar que harás diferente durante este semestre en relación al pasado.</h2>
+<p>A diferencia del semestre pasado, este semestre llevaré una materia más, dando un total
+de 6, de las cuales ni una es de relleno. Juntando esto con que voy a iniciar mis prácticas
+profesionales, continuar con mi servicio social, cumplir con mis entrenamientos y
+actividades extra, tendré que administrar mejor mis tiempos, haciendo así un mejor
+hábito, que me permite ser más productivo con mi vida.
+<br>
+  Además del cambio en mi horario, quiero crecer como ingeniero y enfocarme más
+en lo que quiero hacer con mi carrera. Para esto, debo seguir alimentando mi
+conocimiento sobre temas relacionados a mi campo de estudio, ya que en ocasiones me
+descuido y se me va el tiempo, desperdiciándose.
+<br>
+  Quiero seguir creciendo día con día, no solo como ingeniero, sino también como
+  persona.</p>
+
+
+<br>
+<br>
+<h4>Ayuda con la tarea</h4>
+<p>Recibi ayuda por parte de Jorge Montiel para poder modificar la pagina</p>

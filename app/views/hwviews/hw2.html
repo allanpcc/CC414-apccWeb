@@ -1,0 +1,318 @@
+<style>
+  p, li, h2{text-align:justify}
+</style>
+<h1>Homework #2</h1>
+
+<h2>1. Explica que es CloudFormation y escribe un archivo yaml para crear un
+  bucket usando CloudFormation</h2>
+<p>
+  CloudFormation es un servicio de AWS que permite crear una infraestructura con la cual se pueden manejar los recursos de una aplicación en AWS. Al trabajar con CloudFormation se trabaja con dos aspectos diferentes: templates y stacks.
+  <br>
+ <li><b>Template:</b> utiliza para describir los recursos y propiedades de la aplicación. Escrito
+  en JSON o YAML, contiene la estructura para manejar los recursos de la
+  aplicación.</li>
+
+<li><b>Stack:</b> provisiona los recursos descritos en el template. En el template se
+   especifican los recursos que se utilizaran y CloudFormation crea un stack en base
+   a dicho template.</li>
+  <br>
+Para crear un bucket utilizando yaml en CloudFormation se puede utilizar el siguiente
+código:
+</p>
+<pre>
+  Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      BucketName: cloudformationexample
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
+</pre>
+<p>
+  Para crear el stack que correrá el template, se utiliza el siguiente comando en la terminal
+</p>
+<pre>
+    aws cloudformation create-stack --stack-name [nombre del stack] –template-body file://[direccion del template]
+</pre>
+
+<h2>2. Crea un Hola Mundo en NodeJs y haz un tutorial sobre eso</h2>
+<p>
+  Para iniciar el programa, es necesario tener NodeJs, utilizado para ejecutar código en JavaScript.
+  Descargue con:
+<pre> apt-get install nodejs</pre>
+<p>También puede verificar si ya lo tiene instalado con:</p>
+<pre> node -v </pre>
+</p>
+<p>Ya instalado NodeJs, se prosigue a hacer un programa de Hola Mundo. El código deberá
+  ser guardado dentro de un archivo con extensión .js, que es extensión para javascript.
+  Como se busca hacer que este código pueda ser ejecutado a través de una aplicación
+  web, se tiene que importar el siguiente módulo: </p>
+<pre>
+  var http = require('http')
+</pre>
+<p>
+  Para tener un lugar en donde llevar a cabo nuestro programa, es necesario crear un
+  servidor.
+</p>
+<pre>
+  var servidor = http.createServer(function (pedido, respuesta) {
+  respuesta.writeHead(200, {"Content-Type": "text/plain"});
+  respuesta.end("Hola Mundo!");
+  });
+  servidor.liste(8080);
+</pre>
+<p>
+  De lo anterior, tenemos que con createServer se crea un servidor dentro de nuestra
+  computadora y también puede ejecutar funciones al escuchar los puertos de la
+  computadora. Con la función de crear servidor se manejan los pedidos y que le llegan y
+  responden de acuerdo a lo requerido. En este caso, se manda una respuesta de 200,que
+  es un OK y el pedido fue satisfactorio, al header para que se pueda procesar. Después
+  de esto se escribe el mensaje que desea desplegar.
+  <br>
+  Por último, se da la instrucción de que el servidor escuche al puerto 8080 para llevar a
+  cabo la ejecución. La dirección del localhost, que hace referencia a su computadora, es
+  127.0.0.1, por lo cual el código anterior se verá reflejado en la dirección 127.0.0.1:8080
+  una vez que se ejecute.
+<br>
+  Para ejecutar el archivo se debe utilizar la siguiente instrucción.
+</p>
+<pre>
+  node [nombre del archivo.js]
+</pre>
+
+<h2>3. Instala el sdk de aws para NodeJs y crea un tutorial sobre eso</h2>
+<p>
+  Como ya se tiene instalado NodeJs y como consecuencia npm, se utilizará npm para
+  poder instalar el sdk de aws para nodejs.
+  <br>
+  Se instala a través del siguiente comando:
+</p>
+<pre>
+  npm install aws-sdk
+</pre>
+<p>
+  Una vez instalado, el sdk buscará credenciales de acceso para poder ser habilitado
+  cuando se quiera utilizar, es recomendable guardar tu archivo en la dirección
+  ~/.aws/credentials, para que se busque automáticamente y no se tenga la necesidad de
+  mover las credenciales a un punto donde se pueden acceder fácilmente y por error.
+  <br>
+  Para utilizar el sdk, se tiene que importar el módulo con:
+</p>
+<pre>
+  var AWS = require('aws-sdk');
+</pre>
+<p>
+  Ya con esto se puede acceder a los distintos servicios de AWS a través del código, por
+  ejemplo, para usar S3 se usa la siguiente línea:
+</p>
+<pre>
+  var s3 = new AWS.S3();
+</pre>
+
+<h2>4. Crea un código en NodeJs que permita ver la version/fecha de tu página en S3</h2>
+<pre>
+  var AWS = require('aws-sdk');
+  var s3 = new AWS.S3();
+
+  var params = {
+    Bucket: "allancastro",
+    Key: "index.html"
+  };
+  s3.getObject(params, function(err, data) {
+    if (err) console.log(err, err.satck);
+    else     console.log("Ultima Modificacion: "+data.LastModified+"\nVersion: "+data.VersionId);
+  });
+</pre>
+<p>
+  Con el código anterior se puede obtener el versionamiento de la página, dado por
+  index.html y la fecha de la última modificación que se realizó. Para esto, se especifica en
+  los parámetros el bucket al que se desea acceder en S3 y el archivo en específico.
+  <br>
+  Después de esto con la función getObject se pide obtener los detalles del objeto, pidiendo
+  en este caso que solo muestra la fecha y la versión.
+</p>
+
+<h2>5. Lee y explica la publicación “Microservices Trade-Offs” de Martin Fowler (<a href="http://martinfowler.com/articles/microservice-trade-offs.html">http://martinfowler.com/articles/microservice-trade-offs.html</a>)</h2>
+<p>
+  A pesar de que la arquitectura basada en microservicios tiene grandes servicios como el
+  poder trabajar de manera independiente y trabajar con los servicios que necesitas sin
+  necesidad de mover todo, puede traer desventajas ligadas a su uso.
+  <br>
+  <br>
+  Entre sus ventajas se encuentra:
+</p>
+<li><b>Estructura modular </b> trabajar de manera independiente en cada servicio,
+  con lo cual se vuelve más sencillo modificar individualmente los servicios sin mover
+  todo el conjunto</li>
+<li><b>Despliegue independiente</b>, se liberan los servicios de manera independiente, al
+  ser más pequeños que tener todo el programa, es más sencillo hacer correcciones
+  y actualizaciones</li>
+<li><b>Diversidad tecnológica</b>, al ser independientes los servicios se pueden crear
+  utilizando distintas tecnologías y facilitando la experimentación</li>
+<p>
+  <br>
+  Entre las desventajas se encuentra:
+</p>
+<li><b>Distribución</b>, la manera en la que se comunican los servicios es lenta y puede fallar</li>
+<li><b>Consistencia</b>, se depende de muchos recursos y si no se trabaja de una manera
+  consistente, se pueden generar muchos problemas en la falta de comunicación</li>
+<li><b>Complejidad Operacional</b>, se deben de tomar en cuenta muchos servicios que
+pueden salirse de control y volver más complicado el proceso de juntarlos o buscar
+  errores.</li>
+<p>
+  Al momento de iniciar a crear un programa, es necesario considerar las ventajas y
+  desventajas de cualquier arquitectura para utilizar la que más convenga, y más con
+  una tan reciente como la basada en microservicios, que aún no cuenta con el tiempo
+  suficiente para observar cómo se mantiene con el paso del tiempo.
+</p>
+
+<h2>6. Crea una tabla de comparaciones entre AWS, Azure y Google Cloud</h2>
+<style>
+  td {
+  text-align: center;
+  padding: 8px;
+}
+</style>
+<table style="width:100%">
+<tr>
+  <th></th>
+  <td><b>AWS</b></td>
+  <td><b>Azure</b></td>
+  <td><b>Google Cloud</b></td>
+</tr>
+<tr>
+  <th>Desarrollador</th>
+  <td>Amazon</td>
+  <td>Microsoft</td>
+  <td>Google</td>
+</tr>
+<tr>
+  <th>Zonas</th>
+  <td>44 zonas en 16
+    regiones</td>
+  <td>36 regiones</td>
+  <td>33 zonas en 11
+    regiones</td>
+</tr>
+<tr>
+  <th>Servicios de
+    Cómputo</th>
+  <td>Elastic Compute
+    Cloud (EC2)</td>
+  <td>Virtual Machines
+    (VMs)</td>
+  <td>Compute Engine</td>
+</tr>
+<tr>
+  <th>Cómputo
+    Serverless</th>
+  <td>AWS Lambda</td>
+  <td>Azure Functions</td>
+  <td>Google Cloud
+    Functions</td>
+</tr>
+<tr>
+  <th>Base de Datos</th>
+  <td>Amazon
+    Relational
+    Database Service
+    (RDS)</td>
+  <td>Azure SQL
+    Database</td>
+  <td>Cloud SQL</td>
+</tr>
+<tr>
+  <th>Administración y
+    Seguridad</th>
+  <td>AWS Identity and
+    Access
+    Management
+    (IAM)</td>
+  <td>Azure Active
+    Directory</td>
+  <td>Cloud Identity &
+    Access
+    Management
+    (IAM)</td>
+</tr>
+  <tr>
+    <th>Servicios y
+      Opciones de
+      Administración</th>
+    <td>Amazon
+      CloudFormation</td>
+    <td>Azure Resource
+      Management</td>
+    <td>Cloud
+      Deployment
+      Manager</td>
+  </tr>
+  <tr>
+    <th>Analítica</th>
+    <td>Amazon Kinesis</td>
+    <td>Azure Stream
+      Analytics</td>
+    <td>Cloud Dataflow</td>
+  </tr>
+  <tr>
+    <th>Machine Learning</th>
+    <td>Amazon Machine
+      Learning</td>
+    <td>Azure Machine
+      Learning</td>
+    <td>Cloud Machine
+      Learning Engine</td>
+  </tr>
+  <tr>
+    <th>Opciones de
+      Analítica/Hadoop</th>
+    <td>Elastic
+      MapReduce</td>
+    <td>HDInsight
+      (Hadoop)</td>
+    <td>Google Cloud</td>
+  </tr>
+  <tr>
+    <th>Object Storage</th>
+    <td>Amazon Simple
+      Storage (S3)</td>
+    <td>Azure Storage</td>
+    <td>Cloud Storage</td>
+  </tr>
+</table>
+<h2>7. Lee al menos 5 secciones del Manifiesto: “Stop Stealing Dreams” de Seth
+  Godin y escribe que opinas al respecto</h2>
+<li><b>Dreams are difficult to build and easy to destroy:</b> es fácil decirle a los demás
+  lo que no pueden hacer, que sus sueños no podrán ser alcanzados y que mejor ni
+  lo intente. Lo difícil es motivarlos a que los persigan y no se den por vencidos. Es
+  necesario motivarlos para que se superen cada día más para que puedan ser
+  mejores y motivar a los que los rodean.</li>
+<li><b>And yet we isolate students instead of connecting them:</b> vivimos en sociedad,
+  siempre estamos rodeados de otras personas y trabajamos juntos, entonces es
+  necesario que desde pequeños se fomente el trabajo colaborativo. Necesitamosde otros para progresar, para cumplir con nuestros trabajos, para alcanzar
+  nuestros sueños, es importante aprender a pensar en los demás, a trabajar con
+  ellos y no solo estar buscando hacer todo solo, aceptar que necesitamos de los
+  demás.</li>
+<li><b>Who will teach bravery?:</b> para poder seguir adelante, superarnos y alcanzar
+  nuestros sueños se deben de tomar muchos riesgos. El tomar estos riesgos puede
+  resultar en algo positivo o negativo, pero nunca se sabrán las consecuencias si no
+  se intenta. Para enseñar a las personas a lidiar con estas consecuencias y
+  animarse a tomar riesgos es impórtate motivarlos, darles ejemplos a seguir. Si
+  triunfan se sentirán motivados a continuar por sus beneficios, si fracasan no hay
+  que dejar que se desanimen, ya que de los errores se aprende más que de los
+  triunfos.</li>
+<li><b>Judgment, skill, and attitude:</b> una buena educación se da desde el núcleo
+  familiar, en ella deben de fomentar el cuidado, actuar con respeto, honestidad y
+  libre de juicio. El cuidado no es solo el cuidado de si mismos, también es el cuidado
+  de su futuro, el de los demás, el de la naturaleza y el de su ambiente. Por eso se
+  tiene que dar una buena educación desde la familia y hacerlo con el debido
+  cuidado ya que esto lleva una gran responsabilidad.</li>
+<li><b>Make something differently:</b> la locura se ha definido como el hecho de hacer lo
+  mismo uno y otra vez y esperar resultados diferentes, lo cual se puede ver aplicado
+  en la manera que se lleva a cabo la educación, instruir con los mismos métodos
+  con los que se han seguido desde hace mucho tiempo y esperar nuevos resultados
+  en las personas. Para poder lograr resultados diferentes, es necesario hacer
+  cambios en el sistema educativo, como la manera de calificar o de buscar que
+  todos piensen de la misma manera.</li>
