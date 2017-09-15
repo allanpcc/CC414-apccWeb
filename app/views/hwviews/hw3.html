@@ -1,1 +1,158 @@
+<style>
+  p, li, h2{text-align:justify}
+</style>
 <h1>Homework #3</h1>
+
+
+
+<h2>1. Crea un NodeJS que haga lo siguiente:</h2>
+<h3>
+  <li>Descargue la imagen de s3://cc414-images/scientist.png</li>
+  <li>Revise si la llave del metadata “x-amz-meta-move” es True </li>
+  <li>Si es True, subirla a s3://cc414-images/{MATRICULA}/image.png</li>
+</h3>
+<pre>
+var aws = require("aws-sdk");
+var s3 = new aws.S3({ region: "us-east-1"});
+var bucket = "cc414-images";
+var image = "scientist.png";
+var numberid = "20010";
+var params = {
+  Bucket: bucket,
+  Key: image
+};
+s3.getObject(params, function(err, data) {
+  if (err) {
+    console.log(err, err.stack);
+  }
+  else {
+    if(data.Metadata.move) {
+      var imageParams = {
+        Body: data.Body,
+        Bucket: bucket + "/" + numberid,
+        Key: "image.png"
+      };
+      s3.putObject(imageParams, function(err, data) {
+        if (err) {
+          console.log(err, err.stack);
+        }
+        else {
+          console.log("Succesfully uploaded");
+        }
+      });
+    }
+  }
+});
+</pre>
+<p>
+Primero se declaran los módulos a utilizar en el programa y se especifica la región a
+trabajar. Después se declaran las variables con las que se trabajarán, estás son el
+nombre del bucket de donde sacaremos la imagen, el nombre de la imagen y la matrícula.
+<br>
+Con la función getObject se obtiene el objeto de la imagen que se encuentra en el bucket,
+y en caso de ser exitoso se analiza el metadata que contiene move, si es True, entonces
+se subirá la imagen a otra carpeta. Con la función putObject, se asigna un lugar a donde
+se subirá la imagen, el nombre de la imagen y el cuerpo de la misma.
+</p>
+
+<h2>2. Crea un NodeJS que haga lo siguiente:</h2>
+<h3>
+  <li>Descargue la foto astronómica de la NASA del día</li>
+  <li>Guarda la imagen en el sistema local</li>
+  <li>Imprima el título de la imagen</li>
+</h3>
+<pre>
+var https = require("https");
+var fs = require("fs");
+var apiKey = "DEMO_KEY";
+var url = " https://api.nasa.gov/planetary/apod?api_key="+apiKey;
+https.get(url, res => {
+  res.setEncoding('utf8');
+  var data = "";
+  res.on('data', d => {
+    data = JSON.parse(d);
+  });
+  res.on('end', d => {
+    https.get(data.url, res => {
+      res.pipe(fs.createWriteStream('NASA_APOD_'+data.date+'.jpg'));
+      console.log("Title: " +data.title);
+    });
+  });
+  res.on('error', e => {
+    console.log(e);
+  });
+});
+</pre>
+<p>
+Primero se importan los módulos requeridos para el programa. Después se declaran las
+variables para el url de donde se descargará la imagen, se obtendrá por medio de un API
+y se utilizará como llave una que se proporciona como demostración, siendo
+“DEMO_KEY”. Esta llave de prueba tiene de límites que sólo puede hacer requests hasta
+30 veces por hora o 50 al día, pero como este código solo requiere descargar la foto del
+día, se utilizará esa llave.<br>
+Con la función https.get se le pasa de parámetro el url y la respuesta que se espera, la
+cual guardará el JSON de los resultados en la variable data, la cual se utilizará para
+obtener la fecha de la imagen y asignársela al guardarla y el título de la imagen.
+Cuando termine de recibir los datos, la función fs.createWriteStream se le pasan los
+parámetros para le nombre del archivo a generar y guardar.
+</p>
+
+<h2>3. Implementar Google Analytics en tu web personal</h2>
+<p>
+  Primero es necesario crear una cuenta de Google Analytics por medio de un correo de
+Gmail. Después de esto sigue generar un Tracking ID. Una vez obtenido, se pega el
+siguiente código en todas las páginas que se desean monitorear. Donde [TrackingID] es
+el código generado para monitorear esa página
+</p>
+<pre>
+  !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+    (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+    r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+  }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', ‘[TrackingID]’, 'auto');
+  ga('send', 'pageview');
+</pre>
+
+<h2>4. Lee y explica el siguiente artículo de Martin Fowler:
+  <a href="http://martinfowler.com/articles/richardsonMaturityModel.html">http://martinfowler.com/articles/richardsonMaturityModel.html</a></h2>
+<p>
+En este artículo se explica un modelo en el que se dividen los principales elementos de
+una arquitectura REST. Este modelo se divide en 4 niveles, del 0 al 1, donde:
+</p>
+
+<li><b>Nivel 0</b>: se utiliza HTTP como un sistema de transporte, pero no se utilizan las
+  funciones de web.</li>
+<li><b>Nivel 1 - Resources</b>: se comunica con recursos individuales, en lugar de solo
+pasar toda la información, ahora se puede acceder de manera específica a cada
+  recurso</li>
+<li><b>Nivel 2 - HTTP Verbs</b>: se utilizan los verbos de HTTP como si se utilizaran dentro
+  del mismo HTTP</li>
+<li><b>Nivel 3 – Hyperdemia Controls</b>: introduce HATEOAS (Hypertext As The Engine
+Of Application State). En este nivel, el beneficio de utilizas hipermedia controls es
+que permite que el servidor cambie el esquema de su URI sin causar problemas
+  con sus clientes y permite que se explore y trabaje con el protocolo.</li>
+
+<h2>5. Explica por qué Cloud Computing es importante</h2>
+<p>
+Es importante porque facilita el almacenamiento y procesamiento de datos a través de
+internet. Lo anterior quiere decir que te es posible almacenar una gran cantidad de datos,
+procesar mucha información desde cualquier parte del mundo. De esta manera se puede
+trabajar desde cualquier parte y como el procesamiento no se realiza en tu computadora,
+no se necesita de un gran gasto en equipo capaz de llevar mucho procesamiento.<br>
+Además de todo esto, se vuelve una opción económica y flexible, ya que puedes elegir
+lo que necesitas usar y pagar por eso. También, se trabaja con tecnología muy avanzada,
+difícilmente obtenible y muy costosa si es que se busca conseguir el propio. Juntando
+esto con lo anterior, también se tiene seguridad de que los datos con los que trabajas no
+podrán ser accedidos por personas ajenas.
+</p>
+
+<h2>6. Explica que te gustaría cambiar de esta clase y por qué</h2>
+<p>
+Me gusta cómo ha transcurrido la clase en cuestión del material abordado en clase y
+como se explica todo. Lo único que me gustaría cambiar sería la fecha de entrega de las
+tareas, debido a que me cuesta mucho tiempo completarla y durante la semana siento
+que no me alcanza por las otras tareas y actividades, teniendo así el sábado para
+dedicarle completo a la tarea. Sólo me gustaría cambiar la fecha al domingo a mediodía,
+como ocurrió en 5to semestre. Fuera de eso, no cambiaría algo más de la clase.
+</p>
