@@ -19,7 +19,8 @@ angular.module('allancastroApp')
       url: "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/characters"
     }).then(function successCallback(data) {
       //console.log(data.data);
-      data=data.data;
+      data=data.data[0];
+      console.log(data)
       for(var i=0; i < data.length; i++) {
         $("#character1").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
         $("#character2").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
