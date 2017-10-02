@@ -1,1 +1,129 @@
-<h1>Homework #4</h1>
+<head>
+  <style>
+      .tabcontent{
+        display: none;
+      }
+      p, li, h2{text-align:justify}
+  </style>
+</head>
+
+<body>
+  <h1>Homework #4</h1>
+  <p>Las lambdas creadas para esta tarea se puede revisar en el siguiente repositorio</p>
+  <p><a href="https://github.com/allanpcc/hw4-marvelapi-lambdas">https://github.com/allanpcc/hw4-marvelapi-lambdas</a> </p>
+
+  <h2>¿Qué es una promesa?</h2>
+  <p>Es un objeto que se utiliza para hacer operaciones asíncronas, ya que este objeto
+    representa un valor que se desconoce al momento de crear la promesa, y este puede
+    estar disponible en el momento, en un futuro o nunca si es que falló. Por lo tanto, una
+    promesa puede estar en los siguientes estados: pending, si no se cumple ni rechaza;
+    fulfilled, si se completó con éxito; rejected, si falló.</p>
+
+  <h2>¿Qué es un callback?</h2>
+  <p>
+    Es una función que es pasada como parámetro a otra función, en esto, la función de
+    callback se ejecuta dentro de la otra función. Al pasar un callback como función, sólo
+    se pasa la definición de la función y no se ejecuta dentro del parámetro, así que no
+    se escribe con los paréntesis.
+  </p>
+
+  <h2>¿Cuál es la diferencia entre ambos?</h2>
+  <p>Una promesa representa un valor que puede o no estar disponible en el futuro,
+    mientras que un callback es una función que se llama dentro de otra función. Con un
+    callback se ejecuta al terminar una tarea, permitiendo que se ejecuten otras acciones
+    mientras se termina la tarea. Una promesa puede llevar a cabo varias acciones en lo
+    que se llega a la tarea buscada. En tanto a funcionamiento, se puede lograr lo mismo
+    con callbacks y promesa, la diferencia principal viene siendo la sintaxis, debido a que
+    en un callback se anidan muchas funciones, mientras que en una promesa todo es
+    más claro y fácil de analizar.</p>
+
+  <h2>Elige tus Personajes</h2>
+  <select id="character1">
+    <option>Character 1</option>
+  </select>
+
+  <select id="character2">
+    <option>Character 2 </option>
+  </select>
+
+  <button type="button" id="goBtn" onclick="GetCommons()">GO</button>
+  <div >
+    <h3>Latencia: <h4 id="latencia"></h4></h3>
+  </div>
+
+  <div class="tab">
+    <button class="tablinks" onclick="changeTab(event, 'Series')">Series</button>
+    <button class="tablinks" onclick="changeTab(event, 'Comics')">Comics</button>
+  </div>
+
+  <div style="width:100%; height: 400px; padding: 5px; overflow: auto; border: 5px solid black;">
+
+    <div id="Series" class="tabcontent">
+      <h2>Common Series</h2>
+      <ul id="SeriesList"></ul>
+    </div>
+
+    <div id="Comics" class="tabcontent">
+      <h2>Common Comics</h2>
+      <ul id="ComicsList"></ul>
+    </div>
+
+  </div>
+
+<br>
+<p>Ayuda recibida por mis compañeros: Manuel Puentes y Jorge Montiel</p>
+</body>
+
+<script language="JavaScript">
+  function changeTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+
+    tabcontent =  document.getElementsByClassName("tabcontent");
+    for (i=0; i < tabcontent.length; i++){
+      tabcontent[i].style.display = "none";
+    }
+
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i=0; i < tablinks.length; i++){
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+
+  function GetCommons(){
+    var firstCharacterId = $("#character1").val()
+    var secondCharacterId = $("#character2").val()
+
+    $("#SeriesList").empty();
+    $("#ComicsList").empty();
+    $("#latencia").empty();
+
+    var allComicsUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/comics";
+    var allSeriesUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/series";
+    var t0 = performance.now(); //Inicia cronometro para latencia
+
+
+    postCommon(allSeriesUrl, "#SeriesList", firstCharacterId, secondCharacterId, t0);
+    postCommon(allComicsUrl, "#ComicsList", firstCharacterId, secondCharacterId, t0);
+
+    //var t1 = performance.now();// termina cronometro para latencia
+
+    //console.log("latencia: "+(t1-t0));
+    //$("#latencia").append(((t1+t0)/1000)+" s");
+
+  }
+
+  function postCommon(url, list, Id1, Id2, t0){
+    $.post(url, '{"firstCharacterId": '+Id1+', "secondCharacterId": '+Id2+'}', function(data, status) {
+//      console.log('{"firstCharacterId": '+firstCharacterId+', "secondCharacterId": '+secondCharacterId+'}');
+      console.log(data);
+      for(let i=0; i < data.length; i++){
+        $(list).append("<li>"+data[i]+"</li>");
+      }
+      var t1 = performance.now();
+      $("#latencia").append("<li>"+list+": "+((t1-t0)/1000)+" s"+"</li>")
+    });
+  }
+</script>
