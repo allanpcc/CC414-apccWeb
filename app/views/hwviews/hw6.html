@@ -1,1 +1,163 @@
+<head>
+  <style>
+    p, li, h2{text-align:justify}
+  </style>
+</head>
+<body>
 <h1>Homework #6</h1>
+<h2>1. Lee sobre AWS Well Architected Framework y haz un resumen sobre los 5
+  pilares. <a href="https://d0.awsstatic.com/whitepapers/architecture/AWS_Well-
+  Architected_Framework.pdf">https://d0.awsstatic.com/whitepapers/architecture/AWS_Well-
+    Architected_Framework.pdf</a></h2>
+<p>
+  Se creó AWS Well Architected Framework por parte de Amazon para que sus clientes
+  puedan seguir una estructura de trabajo para tomar en cuenta las mejores prácticas
+  empleadas para el diseño y funcionamiento óptimo de sus sistemas en la nube. Esta
+  estructura se basa en 5 pilares para sostener todo el trabajo y alcanzar los objetivos del
+  desempeño óptimo del sistema, dichos pilares son: Seguridad, Confiabilidad, Eficiencia
+  de Desempeño, Optimización de Costos y Excelencia de Operabilidad.<br> <br>
+
+  <b>Seguridad:</b> este pilar está orientado a proteger la información, los sistemas y sus bienes
+  para evitar tener fallas y errores dentro del programa, los cuales pueden resultar en un
+  punto de entrada para ataques o que pueda haber errores graves dentro de sí mismo.
+  Las siguientes prácticas son utilizadas para el fortalecimiento de la seguridad:
+<ul>
+  <li><b>Seguridad en todas las capas:</b> se debe aplicar seguridad a todos los niveles,
+    para mantener a salvo los recursos. Esta seguridad de los recursos se puede dar
+    por servidores virtuales, load balancers, network subnet, y como seguridad externa
+    se pueden utilizar firewalls.</li>
+  <li><b>Trazabilidad:</b> tener logs de todos los cambios para poder analizar el
+    comportamiento del programa y poder detectar en caso de que se presenten
+    errores.</li>
+  <li><b>Implementar un principio del menos privilegiado:</b> la autorización se debe tener
+    en cada interacción con los recursos de AWS y controles de acceso.</li>
+  <li><b>Asegurar el sistema: </b>con AWS Shared Responsibility Model se pueden enfocar
+    en la seguridad de la aplicación, los datos y el funcionamiento mientras que AWS
+    se encarga de la seguridad de la infraestructura y los servicios</li>
+  <li><b>Automatización de seguridad: </b>permite la escalabilidad de una manera rápida y
+    económica. Al hacer muchas implementaciones de manera manual, el error
+    humano puede ocurrir, al automatizar se reduce la probabilidad de errores.</li>
+</ul>
+<br>
+Para la seguridad se tienen las siguientes prácticas:
+<ul>
+  <li><b>Identity and Access Management: </b>manejar grupos para identificar a los usuarios
+    y dar acceso a ciertos servicios únicamente. Con esto se pueden controlar los
+    permisos para cada usuario. Servicios: Identity and Access Management (IAM),
+    Multi-factor Authentication (MFA)</li>
+  <li><b>Detective Controls:</b> procesamiento de logs, eventos y monitore para poder
+    analizar el desempeño del sistema. Servicios: CloudTrail, Config, CloudWatch</li>
+  <li><b>Infrastructure Protection: </b>establecer protección de límites, monitorear puntos de
+    entrada y salida. Servicios: Virtual Private Cloud (VPC)</li>
+  <li><b>Data Protection:</b> categorización de los datos y encriptación de a información.
+    Servicios: Elastic Load Balancing, Elastic Block Store (EBS), Simple Storage
+    Service (S3), Relational Database Service (RDS), Key Management Service
+    (KMS)</li>
+  <li><b>Incident Response:</b> análisis de logs para poder responder en caso de que se
+    presente un incidente, puede ser automatizado. Servicios: Identity and Access
+    Management (IAM), CloudFormation</li>
+</ul>
+<br>
+
+<b>Confiabilidad:</b> se enfoca en el manejo de del sistema y como se puede recuperar tras
+un fallo, controlar la demanda de los recursos de una manera dinámica, y mitigar los fallos
+por errores en configuración o problemas en la red.<br>
+Se tienen las siguientes prácticas
+<ul>
+  <li><b>Foundations: </b>requerimientos que afectan la confiabilidad, como banda ancha que
+    pueden ser ignoradas por no ser tomadas en cuenta para el proyecto, pero con los
+    servicios de AWS ya se tiene todo previsto para satisfacer la demanda. Servicios:
+    IAM, VPC</li>
+  <li><b>Change Management:</b> analizar cómo afectarán los cambios al sistema, planear y
+    monitorear para identificar de manera rápida errores. Servicios: CloudTrail, Config </li>
+  <li><b>Failure Management:</b> se sabe que los errores ocurren, es necesario tomarlos en
+    cuenta para saber cómo responder a ellos. Servicios: CloudFormation</li>
+</ul>
+<br>
+
+<b>Eficiencia de Desempeño:</b> enfocada al uso eficiente del cómputo de los recursos para
+mantener la eficiencia del sistema mientras se adapta a los cambios tecnológicos y la
+demanda. <br>
+Se tienen las siguientes prácticas:
+<ul>
+  <li><b>Selection:</b> la mejor solución para ciertas aplicaciones depende del resultado que
+    se espera tener. Servicios: Auto Scaling, EBS, S3, RDS, DynamoDB, VPC, Route
+    53, Direct Connect.</li>
+  <li><b>Review:</b> la tecnología está en constante evolución, por lo que se debe seguir
+    revisando el funcionamiento del programa en relación con estos cambios ya que
+    puede que se encuentren mejores soluciones al problema. Servicios: AWS Blog,
+    AWS Website</li>
+  <li><b>Monitoring: </b>monitorear el desempeño del sistema, para detectar errores.
+    Servicios: CloudWatch, Lambda</li>
+  <li><b>Tradeoffs:</b> dependiendo del objetivo que se desea alcanzar, habrá desventajas
+    que se tendrán que aceptar, se tiene que razonar cada desventaja para ver si la
+    solución a emplear es realmente la mejor. Servicios: ElastiCache, CloudFront,
+    Snowball. RDS</li>
+</ul>
+<br>
+
+<b>Optimización de Costos:</b> estudio del proceso continuo de refinamiento y mejoramiento
+del sistema, para buscar soluciones en las que se minimicen los costos. <br>
+Se tienen las siguientes prácticas:
+<ul>
+  <li><b>Cost-Effective Resources:</b> usar los recursos apropiados para el sistema es la
+    manera para tener recursos económicos para la aplicación que deseas tener.
+    Servicios: Trusted Advisor</li>
+  <li><b>Matching Supply and Demand: satisfacer la demanda de una manera dinámica
+    para no tener desperdicios. Servicios: Auto Scaling</b>
+  <li><b>Expenditure Awareness:</b> estudiar en que se están llevando los costos y ver cómo
+    encontrar soluciones que puedan resultar con ganancias. Servicios: CloudWatch,
+    Simple Notification Service (SNS)</li>
+  <li><b>Optimizing Over Time: </b> revisar la arquitectura de tu sistema para asegurarse de
+    que las decisiones que se han tomado sigan siendo las mejores, para poder quitar
+    lo que ya no es necesario mantener. Servicios: AWS Blog, AWS Website, Trusted
+    Advisor</li>
+</ul>
+<br>
+
+<b>Excelencia de Operabilidad:</b> manejar las cargas de trabajo, para llevar a cabo los
+cambios necesarios para el mejor funcionamiento y reducción de errores. Todo debe
+quedar documentado, probado y revisado con regularidad.<br>
+Se tienen las siguientes prácticas:
+<ul>
+  <li><b>Preparación:</b> planear las rutinas para el trabajo, tiempos de producción, análisis
+    de cambios, y hacer pruebas. Servicios: Config, Service Catalog, Auto Scaling,
+    SQS</li>
+  <li><b>Operations:</b> automatización, pequeños cambios frecuentes, pruebas, revisiones.
+    Servicios: CodeCommit, CodeDeploy, CodePipeline, SDK, CloudTrail</li>
+  <li><b>Responses:</b> respuestas a los cambios, se busca automatización. Servicios:
+    CloudWatch</li>
+</ul>
+<br>
+
+</p>
+<h2>2. Explica como aplicarás AWS Well Architected Framework en tu Proyecto</h2>
+<p>
+  <ul>
+  <li><b>Seguridad:</b> implementada a varios niveles. En el nivel más alto, los usuarios
+  deberán conectarse a la aplicación para poder ser identificados y tener
+  autorizaciones. En el siguiente, las llamadas al API tienen que ser autorizadas para
+  poder ser realizadas. Hablado de back-end, se protegerán las interacciones con
+  los recursos al implementar permisos y accesos. Se crearán logs para poder
+    analizar el desempeño de programa y facilitar la detección de errores.</li>
+  <li><b>Confiabilidad:</b> se planea automatizar el control de los recursos, en caso de que
+    se caigan se puedan volver a subir.</li>
+  <li><b>Eficiencia de Desempeño:</b> se decidieron las tecnologías que se utilizarán para el
+  proyecto en base a la aplicación que queremos darles. Se puede llevar a cabo un
+    monitoreo del comportamiento del programa a través de CloudWatch y así poder
+    analizar y sacar estadísticas para un mejor desempeño.</li>
+  <li><b>Optimización de Costos:</b> La aplicación correrá con una arquitectura de
+    microservicios, llevada en serverless, por lo que la escalabilidad será fácil de
+    mantener. También se analizarán los gastos de cada recurso para poder limitarlos
+    únicamente a lo que se va a utilizar, de esta manera no se harán gastos por cosas
+    no utilizadas.</li>
+  <li><b>Excelencia de Operabilidad:</b> se harán pruebas de integración con los cambios
+    que se vayan realizando para asegurar que hay un comportamiento esperado. Al
+    estar utilizando una arquitectura basada en microservicios, es más fácil el poder
+    implementar pequeños cambios, probarlos y analizarlos.</li>
+  </ul>
+</p>
+
+<br>
+<p>Ayuda por parte de Manuel Puentes y Jorge Payan</p>
+</body>

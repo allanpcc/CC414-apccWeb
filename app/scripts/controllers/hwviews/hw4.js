@@ -8,7 +8,7 @@
  * Controller of the allancastroApp
  */
 angular.module('allancastroApp')
-  .controller('HwviewsHw4Ctrl', function ($http) {
+  .controller('HwviewsHw4Ctrl', ['$scope', '$http', function ($scope, $http) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -16,7 +16,8 @@ angular.module('allancastroApp')
     ];
     $http({
       method: 'GET',
-      url: "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/characters"
+      url: "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/characters",
+      headers: {'x-api-key': 'plnPrSrfio24uDjIqjmIqaXL5xRYiGis3SGqTqfv'}
     }).then(function successCallback(data) {
       //console.log(data.data);
       data=data.data[0];
@@ -27,22 +28,48 @@ angular.module('allancastroApp')
       }
     }, function errorCallback(data) {
     });
-/*    $http({
-      method: 'POST',
-      url: "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/comics"
-    })*/
 
-   /* var data = {"results": [
-      {"name": "Spiderman", "id": "55", "comics": "Spiderman 1", "series": "Spiderman"},
-      {"name": "Ironman", "id": "56", "comics": "Ironman 1", "series": "Ironman"},
-      {"name": "Stan Lee", "id": "57", "comics": ["Spiderman 1", "Ironman 1"], "series": ["Spiderman", "Ironman"]},
-      {"name": "Venom", "id": "58", "comics": "Spiderman 1", "series": "Spiderman"}
-    ]}*/
+    $scope.GetCommons = function(){
+      var firstCharacterId = $("#character1").val();
+      var secondCharacterId = $("#character2").val();
+      $("#SeriesList").empty();
+      $("#ComicsList").empty();
+      $("#latencia").empty();
 
-
+      var allComicsUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/comics";
+      var allSeriesUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/series";
+      var t0 = performance.now(); //Inicia cronometro para latencia
 
 
+      $scope.postCommon(allSeriesUrl, "#SeriesList", firstCharacterId, secondCharacterId, t0);
+      $scope.postCommon(allComicsUrl, "#ComicsList", firstCharacterId, secondCharacterId, t0);
+    }
+
+
+    $scope.postCommon = function (url, list, Id1, Id2, t0) {
+      $http({
+        method: 'PUT',
+        url: url,
+        data: '{"firstCharacterId": '+Id1+', "secondCharacterId": '+Id2+'}',
+        headers: {'x-api-key': 'plnPrSrfio24uDjIqjmIqaXL5xRYiGis3SGqTqfv'}
+      }).then(function successCallback(data) {
+        //console.log(data.data);
+        data = data.data;
+        console.log(data);
+        for(var i=0; i < data.length; i++){
+          $(list).append("<li>"+data[i]+"</li>");
+        }
+        var t1 = performance.now();
+        $("#latencia").append("<li>"+list+": "+((t1-t0)/1000)+" s"+"</li>")
+      }, function errorCallback(data) {
+        $(list).append("<li> Access Denied </li>");
+      });
+    }
 
 
 
-  });
+
+
+
+
+  }]);
