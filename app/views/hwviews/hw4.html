@@ -92,40 +92,5 @@
     evt.currentTarget.className += " active";
   }
 
-//  function GetCommons(){
-//    var firstCharacterId = $("#character1").val();
-//    var secondCharacterId = $("#character2").val();
-//
-//    $("#SeriesList").empty();
-//    $("#ComicsList").empty();
-//    $("#latencia").empty();
-//
-//    var allComicsUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/comics";
-//    var allSeriesUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/series";
-//    var t0 = performance.now(); //Inicia cronometro para latencia
-//
-//
-//    postCommon(allSeriesUrl, "#SeriesList", firstCharacterId, secondCharacterId, t0);
-//    postCommon(allComicsUrl, "#ComicsList", firstCharacterId, secondCharacterId, t0);
-//
-//    //var t1 = performance.now();// termina cronometro para latencia
-//
-//    //console.log("latencia: "+(t1-t0));
-//    //$("#latencia").append(((t1+t0)/1000)+" s");
-//
-//  }
-//  headers={headers: {'x-api-key': 'plnPrSrfio24uDjIqjmIqaXL5xRYiGis3SGqTqfv'}};
-//  function postCommon(url, list, Id1, Id2, t0){
-//    $.post(url, '{"firstCharacterId": '+Id1+', "secondCharacterId": '+Id2+'}', function(data, status) {
-////      console.log('{"firstCharacterId": '+firstCharacterId+', "secondCharacterId": '+secondCharacterId+'}');
-// //     console.log(data);
-//      for(let i=0; i < data.length; i++){
-//        $(list).append("<li>"+data[i]+"</li>");
-//      }
-//      var t1 = performance.now();
-//      $("#latencia").append("<li>"+list+": "+((t1-t0)/1000)+" s"+"</li>")
-//    });
-//  }
-
 
 </script>

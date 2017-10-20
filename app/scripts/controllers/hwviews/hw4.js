@@ -40,7 +40,6 @@ angular.module('allancastroApp')
       var allSeriesUrl = "https://tiwhs4uwcl.execute-api.us-east-1.amazonaws.com/dev/common/series";
       var t0 = performance.now(); //Inicia cronometro para latencia
 
-
       $scope.postCommon(allSeriesUrl, "#SeriesList", firstCharacterId, secondCharacterId, t0);
       $scope.postCommon(allComicsUrl, "#ComicsList", firstCharacterId, secondCharacterId, t0);
     }
@@ -65,10 +64,6 @@ angular.module('allancastroApp')
         $(list).append("<li> Access Denied </li>");
       });
     }
-
-
-
-
 
 
 

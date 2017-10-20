@@ -1,0 +1,729 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "ServerlessDeploymentBucket": {
+      "Type": "AWS::S3::Bucket"
+    },
+    "GetCharactersLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-getCharacters"
+      }
+    },
+    "CharacterManagerLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-CharacterManager"
+      }
+    },
+    "GetComicsLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-getComics"
+      }
+    },
+    "GetCommonComicsLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-getCommonComics"
+      }
+    },
+    "GetSeriesLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-getSeries"
+      }
+    },
+    "GetCommonSeriesLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-getCommonSeries"
+      }
+    },
+    "ComicManagerLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-ComicManager"
+      }
+    },
+    "ComicSingleLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-ComicSingle"
+      }
+    },
+    "SeriesManagerLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-SeriesManager"
+      }
+    },
+    "SeriesSingleLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/allan-service-dev-SeriesSingle"
+      }
+    },
+    "GetCharactersLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-getCharacters",
+        "Handler": "Characters.getCharacters",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "GetCharactersLogGroup"
+      ]
+    },
+    "GetCharactersLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetCharactersLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "CharacterManagerLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-CharacterManager",
+        "Handler": "CharacterManager.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "CharacterManagerLogGroup"
+      ]
+    },
+    "CharacterManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CharacterManagerLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "GetComicsLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-getComics",
+        "Handler": "ComicsIndividual.getComics",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "GetComicsLogGroup"
+      ]
+    },
+    "GetComicsLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetComicsLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "GetCommonComicsLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-getCommonComics",
+        "Handler": "CommonComics.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "GetCommonComicsLogGroup"
+      ]
+    },
+    "GetCommonComicsLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetCommonComicsLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "GetSeriesLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-getSeries",
+        "Handler": "SeriesIndividual.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "GetSeriesLogGroup"
+      ]
+    },
+    "GetSeriesLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetSeriesLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "GetCommonSeriesLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-getCommonSeries",
+        "Handler": "CommonSeries.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 6
+      },
+      "DependsOn": [
+        "GetCommonSeriesLogGroup"
+      ]
+    },
+    "GetCommonSeriesLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetCommonSeriesLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "ComicManagerLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-ComicManager",
+        "Handler": "ComicManager.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "ComicManagerLogGroup"
+      ]
+    },
+    "ComicManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ComicManagerLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "ComicSingleLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-ComicSingle",
+        "Handler": "ComicSingle.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "ComicSingleLogGroup"
+      ]
+    },
+    "ComicSingleLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "ComicSingleLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "SeriesManagerLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-SeriesManager",
+        "Handler": "SeriesManager.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "SeriesManagerLogGroup"
+      ]
+    },
+    "SeriesManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SeriesManagerLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "SeriesSingleLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/allan-service/dev/1508135029822-2017-10-16T06:23:49.822Z/allan-service.zip"
+        },
+        "FunctionName": "allan-service-dev-SeriesSingle",
+        "Handler": "SeriesSingle.get",
+        "MemorySize": 1024,
+        "Role": "arn:aws:iam::292274580527:role/cc116_lambda",
+        "Runtime": "nodejs6.10",
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "SeriesSingleLogGroup"
+      ]
+    },
+    "SeriesSingleLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SeriesSingleLambdaFunction"
+        },
+        "CodeSha256": "oHJgzkry8Mnj3VMLppkjnjd1QQuYEkU+6L41hk5Q768="
+      }
+    },
+    "ApiGatewayRestApi": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "dev-allan-service"
+      }
+    },
+    "ApiGatewayResourceCharacters": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "characters",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceComics": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "comics",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayResourceSeries": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "ApiGatewayRestApi",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "series",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodCharactersGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceCharacters"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "CharacterManagerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodComicsGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceComics"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "ComicManagerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayMethodSeriesGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceSeries"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "SeriesManagerLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1508135029983": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "StageName": "dev"
+      },
+      "DependsOn": [
+        "ApiGatewayMethodCharactersGet",
+        "ApiGatewayMethodComicsGet",
+        "ApiGatewayMethodSeriesGet"
+      ]
+    },
+    "CharacterManagerLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CharacterManagerLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "ComicManagerLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ComicManagerLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "SeriesManagerLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SeriesManagerLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": {
+        "Ref": "ServerlessDeploymentBucket"
+      }
+    },
+    "GetCharactersLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetCharactersLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "CharacterManagerLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CharacterManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "GetComicsLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetComicsLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "GetCommonComicsLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetCommonComicsLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "GetSeriesLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetSeriesLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "GetCommonSeriesLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetCommonSeriesLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "ComicManagerLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "ComicManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "ComicSingleLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "ComicSingleLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "SeriesManagerLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "SeriesManagerLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "SeriesSingleLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "SeriesSingleLambdaVersionoHJgzkry8Mnj3VMLppkjnjd1QQuYEkU6L41hk5Q768"
+      }
+    },
+    "ServiceEndpoint": {
+      "Description": "URL of the service endpoint",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "ApiGatewayRestApi"
+            },
+            ".execute-api.us-east-1.amazonaws.com/dev"
+          ]
+        ]
+      }
+    }
+  }
+}
