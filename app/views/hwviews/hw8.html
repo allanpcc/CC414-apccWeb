@@ -1,1 +1,29 @@
 <h1>Homework #8</h1>
+
+<p>Las lambdas creadas para esta tarea se puede revisar en el siguiente repositorio</p>
+<p><a href="https://github.com/allanpcc/hw4-marvelapi-lambdas">https://github.com/allanpcc/hw4-marvelapi-lambdas</a> </p>
+
+<h2>Crear una Tabla de DynamoDB con un template de CloudFormation</h2>
+<pre>
+  resources:
+    Resources:
+      MarvelTable:
+        Type: "AWS::DynamoDB::Table"
+        Properties:
+          AttributeDefinitions:
+            -
+              AttributeName: "Id"
+              AttributeType: "S"
+
+          KeySchema:
+            -
+              AttributeName: "Id"
+              KeyType: "HASH"
+          ProvisionedThroughput:
+          ReadCapacityUnits: 10
+          WriteCapacityUnits: 10
+
+         TableName: Allan-Marvel-logs
+
+
+</pre>
